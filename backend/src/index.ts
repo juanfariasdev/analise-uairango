@@ -1,0 +1,25 @@
+// src/index.ts
+import express, { Request, Response } from "express";
+import prisma from "./lib/prismaClient";
+
+const app = express();
+
+app.use(express.json());
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello World!");
+});
+
+app.get("/cidades", async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.cidade.findMany();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+// Inicia o servidor na porta 3000
+app.listen(3000, () => {
+  console.log("Server is running on http://localhost:3000");
+});

@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Cidade {
+  id String @id @default(uuid())
+
+  id_cidade   String   @unique
+  nome        String
+  slug        String   @unique
+  status      String
+  exibe       String
+  inauguracao DateTime
+  inaugurou   Boolean // Indicador de inauguração (true ou false)
+  estado      String
+  uf          String // A UF (abreviação do estado), tamanho fixo de 2 caracteres
+  gmt         String // Horário GMT
+  quantidade  String // Se a quantidade for numérica, considere usar Int ou Float
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("cidades")
+}
