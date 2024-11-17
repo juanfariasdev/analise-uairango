@@ -1,0 +1,21 @@
+interface Cidade {
+  quantidade: string;
+  id_cidade: string;
+  nome: string;
+  slug: string;
+  status: string;
+  exibe: string;
+  inauguracao: string; // Data de inauguração
+  inaugurou: string; // Indicador de inauguração
+  estado: string; // Nome do estado
+  uf: string; // Unidade Federativa (abreviação do estado)
+  gmt: string; // Horário GMT
+}
+
+// Tipo para o objeto que contém os estados como chaves, e listas de cidades como valores
+interface DadosEstado {
+  [estado: string]: Cidade[]; // A chave é o nome do estado e o valor é uma lista de cidades
+}
+
+//www.uairango.com/api-v2/oauth/locais
+curl -X GET "https://www.uairango.com/api-v2/oauth/locais" -H "Content-Type: application/json"

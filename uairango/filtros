@@ -1,0 +1,6 @@
+interface EstabelecimentosFiltros {
+  categorias: string[];
+}
+
+curl -X GET "https://www.uairango.com/api-v2/oauth/filtros/18" ^
+-H "accept: application/json" 

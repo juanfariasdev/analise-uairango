@@ -1,0 +1,53 @@
+curl -X POST "https://www.uairango.com/api-v2/oauth/estabelecimentos/slug/machado" ^
+  -H "Content-Type: application/json" ^
+  --data-raw "{\"seed\": 0, \"id_categoria\": 0, \"status\": true, \"filtros\": {\"tipo\": [\"\"], \"buscaProduto\": \"\", \"categorias\": [\"\"], \"ordenar\": \"\"}}"
+
+
+  interface Estabelecimento {
+    id_estabelecimento: number;
+    nome: string;
+    logo: string;
+    slug: string;
+    filtros: string;
+    banner: string;
+    novo: number;
+    orangefriday: number;
+    evento: number;
+    pagOnline: number;
+    evento_label_cor: string | null;
+    evento_border_label_cor: string | null;
+    evento_label_texto: string | null;
+    evento_icone_cor: string | null;
+    evento_icone_url: string | null;
+    aberto: number;
+    indisponivel: number;
+    aceita_cupom: number;
+    faz_delivery: number;
+    prazo_delivery: number;
+    prazo_delivery_max: number;
+    faz_retirada: number;
+    prazo_retirada: number;
+    prazo_retirada_max: number;
+    min_pedido: number;
+    tipo_taxa: number;
+    promocao: number;
+    formas_pagamento: string;
+    estrelas: number;
+    favorito: number;
+    layout: number;
+    taxa: Taxa;
+    formasPagamento: FormaPagamento[];
+}
+
+interface Taxa {
+    min: number;
+    max: number;
+    valor?: number; // 'valor' pode estar presente ou não dependendo do estabelecimento
+}
+
+interface FormaPagamento {
+    id_categoria: number;
+    nome: string;
+}
+
+type Estabelecimentos = Estabelecimento[];

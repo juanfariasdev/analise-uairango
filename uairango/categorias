@@ -1,0 +1,13 @@
+curl -X GET "https://www.uairango.com/api-v2/oauth/categorias/18" ^
+-H "accept: application/json" 
+
+interface Categoria {
+  id_categoria: number;
+  nome: string;
+  cor: string;
+  arquivo: string;
+}
+
+type Categorias = Categoria[];
+
+
