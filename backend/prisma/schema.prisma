@@ -13,9 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cidade {
-  id String @id @default(uuid())
+model Estado {
+  uf   String @id @unique // 'uf' será a chave primária
+  nome String
 
+  cidades Cidade[] @relation("EstadoCidades") // Relacionamento com cidades
+}
+
+model Cidade {
+  id          String   @id @default(uuid())
   id_cidade   String   @unique
   nome        String
   slug        String   @unique
@@ -23,10 +29,11 @@ model Cidade {
   exibe       String
   inauguracao DateTime
   inaugurou   Boolean // Indicador de inauguração (true ou false)
-  estado      String
-  uf          String // A UF (abreviação do estado), tamanho fixo de 2 caracteres
   gmt         String // Horário GMT
   quantidade  String // Se a quantidade for numérica, considere usar Int ou Float
+
+  uf     String // 'uf' é a chave estrangeira para 'Estado'
+  estado Estado @relation("EstadoCidades", fields: [uf], references: [uf]) // Relacionamento com o Estado
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

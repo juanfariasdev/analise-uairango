@@ -1,6 +1,7 @@
 // src/index.ts
 import express, { Request, Response } from "express";
 import prisma from "./lib/prismaClient";
+import getLocais from "./routes/scrape/locais";
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.get("/cidades", async (req: Request, res: Response) => {
+app.get("/  ", async (req: Request, res: Response) => {
   try {
     const users = await prisma.cidade.findMany();
     res.json(users);
@@ -18,6 +19,7 @@ app.get("/cidades", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
+app.get("/scrape/locais", getLocais);
 
 // Inicia o servidor na porta 3000
 app.listen(3000, () => {

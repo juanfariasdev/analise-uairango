@@ -1,6 +1,23 @@
-export const fetchData = async (url: string) => {
+// src/utils/fetchData.ts
+
+export const fetchData = async ({
+  endpoint,
+  fetchProps,
+}: {
+  endpoint: string;
+  fetchProps?: RequestInit;
+}) => {
   try {
-    const response = await fetch(url);
+    const url = process.env.URL_UAIRANGO;
+
+    if (!url) {
+      throw new Error(
+        "URL_UAIRANGO is not defined in the environment variables"
+      );
+    }
+
+    // Fazendo a requisição com fetch
+    const response = await fetch(`${url}/${endpoint}`, fetchProps);
 
     // Verificar se a resposta foi bem-sucedida
     if (!response.ok) {
@@ -11,6 +28,6 @@ export const fetchData = async (url: string) => {
     return data;
   } catch (error) {
     console.error("Erro ao buscar dados:", error);
-    throw error;
+    throw error; // Relança o erro para ser tratado na chamada
   }
 };
