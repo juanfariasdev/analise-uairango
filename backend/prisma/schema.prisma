@@ -32,11 +32,77 @@ model Cidade {
   gmt         String // Horário GMT
   quantidade  String // Se a quantidade for numérica, considere usar Int ou Float
 
-  uf     String // 'uf' é a chave estrangeira para 'Estado'
-  estado Estado @relation("EstadoCidades", fields: [uf], references: [uf]) // Relacionamento com o Estado
+  uf               String // 'uf' é a chave estrangeira para 'Estado'
+  estado           Estado            @relation("EstadoCidades", fields: [uf], references: [uf]) // Relacionamento com o Estado
+  estabelecimentos Estabelecimento[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@map("cidades")
+}
+
+model Estabelecimento {
+  id                      String  @id @default(uuid()) // Definido como inteiro, com incremento automático
+  id_estabelecimento      Int     @unique
+  nome                    String
+  logo                    String
+  slug                    String  @unique
+  filtros                 String
+  banner                  String
+  novo                    Int
+  orangefriday            Int
+  evento                  Int
+  pagOnline               Int
+  evento_label_cor        String? // Pode ser nulo
+  evento_border_label_cor String? // Pode ser nulo
+  evento_label_texto      String? // Pode ser nulo
+  evento_icone_cor        String? // Pode ser nulo
+  evento_icone_url        String? // Pode ser nulo
+  aberto                  Int
+  indisponivel            Int
+  aceita_cupom            Int
+  faz_delivery            Int
+  prazo_delivery          Int
+  prazo_delivery_max      Int
+  faz_retirada            Int
+  prazo_retirada          Int
+  prazo_retirada_max      Int
+  min_pedido              Int
+  tipo_taxa               Int
+  promocao                Int
+  formas_pagamento        String
+  estrelas                Int
+  favorito                Int
+  layout                  Int
+  taxa_id                 Int // Chave estrangeira para o modelo Taxa
+  taxa                    Taxa    @relation(fields: [taxa_id], references: [id])
+
+  // Relação com as formas de pagamento
+  formasPagamento FormaPagamento[]
+  Cidade          Cidade?          @relation(fields: [cidadeId], references: [id])
+  cidadeId        String?
+
+  @@map("estabelecimentos") // Mapeia para a tabela 'estabelecimentos' no banco de dados
+}
+
+model Taxa {
+  id    Int  @id @default(autoincrement())
+  min   Int
+  max   Int
+  valor Int? // 'valor' pode ser nulo
+
+  // Relação com Estabelecimento
+  estabelecimentos Estabelecimento[]
+
+  @@map("taxas") // Mapeia para a tabela 'taxas' no banco de dados
+}
+
+model FormaPagamento {
+  id_categoria Int    @id @default(autoincrement())
+  nome         String
+
+  estabelecimentos Estabelecimento[]
+
+  @@map("formas_pagamento") // Mapeia para a tabela 'formas_pagamento' no banco de dados
 }

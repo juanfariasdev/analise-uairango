@@ -1,6 +1,6 @@
 curl ^"https://www.uairango.com/api-v2/auth/pedidos?skip=0^&limit=20000^" ^
   -H ^"appID: 1.0^" ^
- 
+  -H ^"Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6IjM0MmRmYzU2Y2Q3ODU1Zjg2MGIwMThjOGIyOGM5OWVmIn0.VDLA7yhOerEAc1E1O8xxtzqhTMMnttHHAEKgXyoAie0^" ^
   -H ^"so: Windows^" ^
   -H ^"sec-ch-ua-platform: ^\^"Windows^\^"^" ^
   -H ^"Referer: https://www.uairango.com/pedidos^" ^

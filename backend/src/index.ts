@@ -2,6 +2,7 @@
 import express, { Request, Response } from "express";
 import prisma from "./lib/prismaClient";
 import getLocais from "./routes/scrape/locais";
+import getEstabelecimentos from "./routes/scrape/estabelecimentos";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get("/  ", async (req: Request, res: Response) => {
   }
 });
 app.get("/scrape/locais", getLocais);
+app.get("/scrape/estabelecimentos", getEstabelecimentos);
 
 // Inicia o servidor na porta 3000
 app.listen(3000, () => {

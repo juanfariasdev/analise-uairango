@@ -41,34 +41,36 @@ const saveLocais = async (locais: DadosEstado) => {
       });
 
       // Salvar cidades associadas a esse estado
-      for (const cidade of cidades) {
-        await prisma.cidade.upsert({
-          where: { id_cidade: cidade.id_cidade },
-          update: {
-            nome: cidade.nome,
-            slug: cidade.slug,
-            status: cidade.status,
-            exibe: cidade.exibe,
-            inauguracao: new Date(cidade.inauguracao),
-            inaugurou: cidade.inaugurou === "true", // Converter para booleano
-            uf: cidade.uf, // A UF da cidade, que é o estado relacionado
-            gmt: cidade.gmt,
-            quantidade: cidade.quantidade,
-          },
-          create: {
-            id_cidade: cidade.id_cidade,
-            nome: cidade.nome,
-            slug: cidade.slug,
-            status: cidade.status,
-            exibe: cidade.exibe,
-            inauguracao: new Date(cidade.inauguracao),
-            inaugurou: cidade.inaugurou === "true", // Converter para booleano
-            uf: cidade.uf, // A UF da cidade, que é o estado relacionado
-            gmt: cidade.gmt,
-            quantidade: cidade.quantidade,
-          },
-        });
-      }
+      await Promise.all(
+        cidades.map(async (cidade) => {
+          await prisma.cidade.upsert({
+            where: { id_cidade: cidade.id_cidade },
+            update: {
+              nome: cidade.nome,
+              slug: cidade.slug,
+              status: cidade.status,
+              exibe: cidade.exibe,
+              inauguracao: new Date(cidade.inauguracao),
+              inaugurou: cidade.inaugurou === "true", // Converter para booleano
+              uf: cidade.uf, // A UF da cidade, que é o estado relacionado
+              gmt: cidade.gmt,
+              quantidade: cidade.quantidade,
+            },
+            create: {
+              id_cidade: cidade.id_cidade,
+              nome: cidade.nome,
+              slug: cidade.slug,
+              status: cidade.status,
+              exibe: cidade.exibe,
+              inauguracao: new Date(cidade.inauguracao),
+              inaugurou: cidade.inaugurou === "true", // Converter para booleano
+              uf: cidade.uf, // A UF da cidade, que é o estado relacionado
+              gmt: cidade.gmt,
+              quantidade: cidade.quantidade,
+            },
+          });
+        })
+      );
     }
   } catch (error) {
     console.error("Erro ao salvar locais:", error);
