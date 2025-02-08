@@ -6,6 +6,8 @@ import getEstabelecimentos from "./routes/scrape/estabelecimentos";
 import { Cidade, Estabelecimento, FormaPagamento, Taxa } from "@prisma/client";
 import { formatDate } from "./lib/dateFormat";
 
+import { Parser } from "json2csv";
+
 const app = express();
 
 app.use(express.json());
@@ -101,14 +103,23 @@ app.get("/estabelecimentos", async (req: Request, res: Response) => {
         taxa: true,
         formasPagamento: true,
       },
-      take: 1, // Limiting the number of results to 10
+      // take: 1, // Limiting the number of results to 10
     });
 
     //Limpeza
 
     const data = cleanData(estabelecimentos as EstabelecimentoComCidades[]);
+    const parser = new Parser();
+    const csv = parser.parse(data);
 
-    res.json(data);
+    res.header("Content-Type", "text/csv");
+    res.header(
+      "Content-Disposition",
+      "attachment; filename=estabelecimentos.csv"
+    );
+    res.send(csv);
+
+    // res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }
