@@ -93,7 +93,6 @@ const saveEstabelecimentos = async (
 ) => {
   // Salvar no banco de dados usando Prisma
   try {
-    console.log;
     for (const estabelecimento of estabelecimentos) {
       const payment: FormaPagamento[] = estabelecimento.formasPagamento.map(
         (form) => ({
