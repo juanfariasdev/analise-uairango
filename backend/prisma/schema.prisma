@@ -83,6 +83,7 @@ model Estabelecimento {
   Cidade          Cidade?          @relation(fields: [cidadeId], references: [id])
   cidadeId        String?
 
+  @@index([slug])
   @@map("estabelecimentos") // Mapeia para a tabela 'estabelecimentos' no banco de dados
 }
 

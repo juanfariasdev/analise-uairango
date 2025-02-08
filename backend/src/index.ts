@@ -12,10 +12,18 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.get("/  ", async (req: Request, res: Response) => {
+app.get("/cidades", async (req: Request, res: Response) => {
   try {
-    const users = await prisma.cidade.findMany();
-    res.json(users);
+    const cidades = await prisma.cidade.findMany();
+    res.json(cidades);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+app.get("/estabelecimentos", async (req: Request, res: Response) => {
+  try {
+    const estabelecimentos = await prisma.estabelecimento.findMany();
+    res.json(estabelecimentos);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }

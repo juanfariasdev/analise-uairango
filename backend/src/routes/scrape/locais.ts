@@ -49,7 +49,7 @@ const saveLocais = async (locais: DadosEstado) => {
               nome: cidade.nome,
               slug: cidade.slug,
               status: cidade.status,
-              exibe: cidade.exibe,
+              exibe: cidade.exibe ? cidade.exibe : "",
               inauguracao: new Date(cidade.inauguracao),
               inaugurou: cidade.inaugurou === "true", // Converter para booleano
               uf: cidade.uf, // A UF da cidade, que é o estado relacionado
@@ -61,7 +61,7 @@ const saveLocais = async (locais: DadosEstado) => {
               nome: cidade.nome,
               slug: cidade.slug,
               status: cidade.status,
-              exibe: cidade.exibe,
+              exibe: cidade.exibe ? cidade.exibe : "",
               inauguracao: new Date(cidade.inauguracao),
               inaugurou: cidade.inaugurou === "true", // Converter para booleano
               uf: cidade.uf, // A UF da cidade, que é o estado relacionado

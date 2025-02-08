@@ -54,35 +54,33 @@ const scrapeEstabelecimento = async (): Promise<void> => {
   try {
     const locais = await prisma.cidade.findMany();
 
-    await Promise.all(
-      locais.map(async (local) => {
-        // Fazer a requisição para buscar dados do estabelecimento
-        const estabelecimentos = (await fetchData({
-          endpoint: `estabelecimentos/slug/${local.slug}`, // Endpoint usando o slug
-          fetchProps: {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              seed: 12,
-              id_categoria: 0,
-              status: false,
-              filtros: {
-                tipo: [""],
-                buscaProduto: "",
-                categorias: [""],
-                ordenar: "",
-              },
-            }),
+    for (const local of locais) {
+      // Fazer a requisição para buscar dados do estabelecimento
+      const estabelecimentos = (await fetchData({
+        endpoint: `estabelecimentos/slug/${local.slug}`,
+        fetchProps: {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        })) as Estabelecimento[];
+          body: JSON.stringify({
+            seed: 12,
+            id_categoria: 0,
+            status: false,
+            filtros: {
+              tipo: [""],
+              buscaProduto: "",
+              categorias: [""],
+              ordenar: "",
+            },
+          }),
+        },
+      })) as Estabelecimento[];
 
-        if (estabelecimentos) {
-          await saveEstabelecimentos(estabelecimentos, local.id_cidade);
-        }
-      })
-    );
+      if (estabelecimentos) {
+        await saveEstabelecimentos(estabelecimentos, local.id_cidade); // Agora ele espera salvar antes de continuar
+      }
+    }
   } catch (error) {
     console.error("Erro ao buscar ou salvar o estabelecimento:", error);
     throw new Error("Erro ao salvar o estabelecimento");
